@@ -49,7 +49,7 @@ public class Jmart
     
     public static int getOriginalPrice(int discountedPrice, float discountPercentage){
         float discprice = discountedPrice;
-        float hargaoriginal = (1/(1-(discountPercentage))) * discprice;
+        float hargaoriginal = (100/(100-(discountPercentage))) * discprice;
         int originalint = (int) hargaoriginal;
         return originalint;
     }
