@@ -4,6 +4,13 @@ public class Jmart
 {
     public static void main(String args[]){
         System.out.println("getPromo : " + getPromo());
+        System.out.println("getCustomer : " + getCustomer());
+        System.out.println("getDiscountPercentage : " + getDiscountPercentage(1000,900));
+        System.out.println("getDiscountedPrice : " + getDiscountedPrice(1000,100.0f));
+        System.out.println("getOriginalPrice : " + getOriginalPrice(900,10.0f));
+        System.out.println("getComissionMultiplier : " + getComissionMultiplier());
+        System.out.println("getAdjustedPrice : " + getAdjustedPrice(1000));
+        System.out.println("getAdminFee : " + getAdminFee(1000));
     }
     
     public static int getPromo(){
@@ -23,7 +30,7 @@ public class Jmart
         {
             int selisih = before-after;
             float percentage = (selisih/before)*100;
-            return before-after;
+            return percentage;
         }
     }
     
@@ -64,6 +71,5 @@ public class Jmart
         int adminfee = (int)finalfee;
         return adminfee;
     }
-    
     
 }
