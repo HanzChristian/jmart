@@ -28,7 +28,7 @@ public class Jmart
         }
         else
         {
-            int selisih = before-after;
+            float selisih = before-after;
             float percentage = (selisih/before)*100;
             return percentage;
         }
