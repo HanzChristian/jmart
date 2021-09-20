@@ -45,7 +45,7 @@ public class PriceTag
         }
     }
     
-    public double getAdjustedPrice(double price)
+    public double getAdjustedPrice()
     {
         double discountprice = getDiscountedPrice() + getAdminFee();
         return discountprice;
