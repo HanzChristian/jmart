@@ -40,10 +40,10 @@ public class Coupon
         if(type == type.DISCOUNT){
             return (100-cut)/priceTag.getAdjustedPrice()*100;
         }
-        else{
+        else if(type == type.REBATE){
             return (priceTag.getAdjustedPrice()-priceTag.price);
         }
+        else return 0.0;
     }
-    
     
 }
