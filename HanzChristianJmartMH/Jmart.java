@@ -1,6 +1,6 @@
 package HanzChristianJmartMH;
 
-public class Jmart
+/* public class Jmart
 {
     public static void main(String args[]){
     }
@@ -23,4 +23,4 @@ public class Jmart
         return new ShipmentDuration(ShipmentDuration.INSTANT, ShipmentDuration.KARGO);
     }
     
-}
+} */
