@@ -1,7 +1,18 @@
 package HanzChristianJmartMH;
 
-public class Coupon
+public class Coupon extends Recognizable implements FileParser
 {
+    public boolean read(String content){
+        return false;
+    }
+    
+    public Object write(){
+        return null;
+    }
+    
+    public static Object newInstance(String content){
+        return null;
+    }
     public final String name;
     public final int code;
     public final Type type;
@@ -13,7 +24,8 @@ public class Coupon
     DISCOUNT, REBATE
     }    
 
-    public Coupon(String name, int code, Type type, double cut, double minimum){
+    public Coupon(int id,String name, int code, Type type, double cut, double minimum){
+        super(id);
         this.name = name;
         this.code = code;
         this.type = type;
