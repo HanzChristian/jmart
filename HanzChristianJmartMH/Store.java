@@ -33,4 +33,8 @@ public class Store extends Recognizable implements FileParser
         this.address = address;
         this.phoneNumber = phoneNumber;
     }
+    
+    public String toString(){
+        return "name: " + this.name + "\naddress: " + this.address + "\nphoneNumber: " + this.phoneNumber;
+    }
 }
