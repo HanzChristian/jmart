@@ -11,14 +11,6 @@ public class Complaint extends Recognizable implements FileParser
         this.desc = desc;
     }
     
-    public boolean validate(){
-        return false;
-    }
-    
-    public Transaction perform(){
-        return null;
-    }
-    
     public boolean read(String content){
         return false;
     }
