@@ -7,11 +7,9 @@ public class Filter
     double value, boolean less){
         ArrayList<PriceTag> priceTags = new ArrayList<>();
         for (PriceTag x: list){
-            if (less && x.getAdjustedPrice() < value || !less){
-                if(x.getAdjustedPrice() >= value){
-                    priceTags.add(x);
+            if (less && x.getAdjustedPrice() < value || !less && x.getAdjustedPrice() >= value){
+               priceTags.add(x); 
             }
-        }
         }
         return priceTags;
     }
