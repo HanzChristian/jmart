@@ -1,14 +1,17 @@
 package HanzChristianJmartMH;
-
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 public class Shipment implements FileParser {
     public String address;
     public int shipmentCost;
     public Duration duration;
     public String receipt;
-
+    
     static class Duration
     {
+        public static final SimpleDateFormat ESTIMATION_FORMAT = new SimpleDateFormat("EEE MMMM dd yyyy");
         public static final Duration INSTANT = new Duration((byte) 1);
         public static final Duration SAME_DAY = new Duration((byte) (1<<1));
         public static final Duration NEXT_DAY = new Duration((byte) (1<<2));
@@ -16,7 +19,24 @@ public class Shipment implements FileParser {
         public static final Duration KARGO = new Duration((byte) (1<<4));
 
         private final byte bit;
-
+        
+        public String getEstimatedArrival(Date reference){
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(reference);
+            if(bit == Duration.NEXT_DAY.bit){
+                cal.add(Calendar.DATE,1);
+            }
+            else if(bit == Duration.REGULER.bit){
+                cal.add(Calendar.DATE,2);
+            }
+            else if(bit == Duration.KARGO.bit){
+                cal.add(Calendar.DATE,5);
+            }
+            
+            return ESTIMATION_FORMAT.format(cal.getTime());
+        }
+            
+        
         private Duration(byte bit){
             this.bit = bit;
         }

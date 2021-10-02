@@ -1,13 +1,15 @@
 package HanzChristianJmartMH;
+import java.util.Date;
+import java.util.Calendar;
 
 public class Complaint extends Recognizable implements FileParser
 {
-    public String date;
+    public Date date;
     public String desc;
     
     public Complaint(int id, String desc){
         super(id);
-        this.date = "ilhumers";
+        this.date = new Date();
         this.desc = desc;
     }
     

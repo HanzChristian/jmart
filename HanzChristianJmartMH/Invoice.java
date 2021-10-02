@@ -1,8 +1,10 @@
 package HanzChristianJmartMH;
+import java.util.Date;
+import java.util.Calendar;
 
 public abstract class Invoice extends Recognizable implements FileParser
 {
-    public String date;
+    public Date date;
     public int productId;
     public int complaintID;
     public Rating rating;
@@ -18,7 +20,7 @@ public abstract class Invoice extends Recognizable implements FileParser
     
     protected Invoice(int id, int buyerId, int productId){
         super(id);
-        this.date = "ilhumerss";
+        this.date = new Date();
         this.buyerId = buyerId;
         this.productId = productId;
         this.rating = Rating.NONE;

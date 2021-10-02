@@ -15,7 +15,7 @@ public class ProductRating
         this.total++;
     }
     
-    public double getAverange(){
+    public double getAverage(){
         return ((double)total/count);
     }
     
