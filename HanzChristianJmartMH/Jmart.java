@@ -1,5 +1,15 @@
 package HanzChristianJmartMH;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
+public class Jmart
+{
+    public static void main(String args[])
+    {
+        System.out.println(Shipment.Duration.INSTANT.getEstimatedArrival(new Date())); 
+    }
+}
 /* public class Jmart
 {
     public static void main(String args[]){

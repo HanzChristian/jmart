@@ -1,6 +1,7 @@
 package HanzChristianJmartMH;
 import java.util.Date;
 import java.util.Calendar;
+import java.util.ArrayList;
 
 public abstract class Invoice extends Recognizable implements FileParser
 {
@@ -17,6 +18,14 @@ public abstract class Invoice extends Recognizable implements FileParser
     enum Status{
         WAITING_CONFIRMATION, CANCELLED, ON_PROGRESS, ON_DELIVERY, COMPLAINT, FINISHED,FAILED;
     }
+    
+    public ArrayList<Record> history = new ArrayList<Record>();
+    class Record{
+        public Date date;
+        public String message;
+        public Status status;
+    }
+    
     
     protected Invoice(int id, int buyerId, int productId){
         super(id);

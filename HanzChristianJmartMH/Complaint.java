@@ -1,6 +1,7 @@
 package HanzChristianJmartMH;
 import java.util.Date;
 import java.util.Calendar;
+import java.text.SimpleDateFormat;
 
 public class Complaint extends Recognizable implements FileParser
 {
@@ -16,5 +17,9 @@ public class Complaint extends Recognizable implements FileParser
     public boolean read(String content){
         return false;
     }
+    
+    public String toString(){
+       SimpleDateFormat formatDate = new SimpleDateFormat("dd/MM/yyyy");
+       return "Complaint{date=" + formatDate.format(date) + ",desc='" + desc + "'}";
+    }
 }
-
