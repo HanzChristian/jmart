@@ -318,8 +318,8 @@ public class Algorithm {
     }
 
     public static <T extends Comparable<? super T>> T max(T first, T second, Comparator<? super T> comparator){
-        int nilaiCompare = comparator.compare(first, second);
-        if(nilaiCompare > 0)
+        int Compare = comparator.compare(first, second);
+        if(Compare > 0)
         {
             return first;
         }
@@ -333,8 +333,8 @@ public class Algorithm {
         T max = array[0];
         for(int i = 0; i < array.length; i++)
         {
-            int nilaiCompare = comparator.compare(array[i], max);
-            if(nilaiCompare > 0)
+            int Compare = comparator.compare(array[i], max);
+            if(Compare > 0)
             {
                 max = array[i];
             }
@@ -348,8 +348,8 @@ public class Algorithm {
         while(iterator.hasNext())
         {
             T element = iterator.next();
-            int nilaiCompare = comparator.compare(element, max);
-            if(nilaiCompare > 0)
+            int Compare = comparator.compare(element, max);
+            if(Compare > 0)
             {
                 max = element;
             }
@@ -362,8 +362,8 @@ public class Algorithm {
         while(iterator.hasNext())
         {
             T element = iterator.next();
-            int nilaiCompare = comparator.compare(element, max);
-            if(nilaiCompare > 0)
+            int Compare = comparator.compare(element, max);
+            if(Compare > 0)
             {
                 max = element;
             }
@@ -419,8 +419,8 @@ public class Algorithm {
     }
 
     public static <T extends Comparable<? super T>> T min(T first, T second, Comparator<? super T> comparator){
-        int nilaiCompare = comparator.compare(first, second);
-        if(nilaiCompare < 0)
+        int Compare = comparator.compare(first, second);
+        if(Compare < 0)
         {
             return first;
         }
@@ -434,8 +434,8 @@ public class Algorithm {
         T min = array[0];
         for(int i = 0; i < array.length; i++)
         {
-            int nilaiCompare = comparator.compare(array[i], min);
-            if(nilaiCompare < 0)
+            int Compare = comparator.compare(array[i], min);
+            if(Compare < 0)
             {
                 min = array[i];
             }
@@ -449,8 +449,8 @@ public class Algorithm {
         while(iterator.hasNext())
         {
             T element = iterator.next();
-            int nilaiCompare = comparator.compare(element, min);
-            if(nilaiCompare < 0)
+            int Compare = comparator.compare(element, min);
+            if(Compare < 0)
             {
                 min = element;
             }
@@ -463,8 +463,8 @@ public class Algorithm {
         while(iterator.hasNext())
         {
             T element = iterator.next();
-            int nilaiCompare = comparator.compare(element, min);
-            if(nilaiCompare < 0)
+            int Compare = comparator.compare(element, min);
+            if(Compare < 0)
             {
                 min = element;
             }
