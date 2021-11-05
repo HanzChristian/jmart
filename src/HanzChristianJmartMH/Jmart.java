@@ -9,7 +9,6 @@ public class Jmart
     {
         //print terhadap hasil
     	System.out.println("Hello from Eclipe!");
-        System.out.println(Shipment.Duration.INSTANT.getEstimatedArrival(new Date()));
 
     }
 }

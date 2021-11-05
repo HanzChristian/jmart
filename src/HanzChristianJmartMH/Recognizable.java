@@ -3,9 +3,9 @@ package HanzChristianJmartMH;
 public class Recognizable implements Comparable<Recognizable>{
     public final int id;
     
-    protected Recognizable(int id)
+    protected Recognizable()
     {
-        this.id = id;
+        this.id = 1;
     }
 
     @Override

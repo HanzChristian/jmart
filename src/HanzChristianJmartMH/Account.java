@@ -2,30 +2,19 @@ package HanzChristianJmartMH;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Account extends Recognizable implements FileParser
+public class Account extends Recognizable
 {
     public int id;
     public String name;
     public String email;
     public String password;
+    public Store store;
     
     public static final String REGEX_EMAIL= "^[a-zA-Z0-9&*_~]+(\\.[a-zA-Z0-9&*_~]+)*@[a-zA-Z0-9-]+(\\.[a-zA-Z0-9-]+)*$";
     public static final String REGEX_PASSWORD = "^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?!.* ).{8,}$";
+
     
-    public boolean read(String content){
-        return false;
-    }
-    
-    public Object write(){
-        return null;
-    }
-    
-    public static Object newInstance(String content){
-        return null;
-    }
-    
-    Account(int id,String name, String email, String password){
-        super(id);
+    Account(String name, String email, String password){
         this.email = email;
         this.password = password;
     }

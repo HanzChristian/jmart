@@ -1,15 +1,8 @@
 package HanzChristianJmartMH;
 
-public class Coupon extends Recognizable implements FileParser
+public class Coupon extends Recognizable
 {
-    public boolean read(String content){
-        return false;
-    }
-    
-    public Object write(){
-        return null;
-    }
-    
+
     public static Object newInstance(String content){
         return null;
     }
@@ -19,13 +12,14 @@ public class Coupon extends Recognizable implements FileParser
     public final double cut;
     public final double minimum;
     private boolean used;
-    
+    double price = 10000;
+    double discount = 10;
+
     public enum Type{
     DISCOUNT, REBATE
     }    
 
-    public Coupon(int id,String name, int code, Type type, double cut, double minimum){
-        super(id);
+    public Coupon(String name, int code, Type type, double cut, double minimum){
         this.name = name;
         this.code = code;
         this.type = type;
@@ -38,8 +32,8 @@ public class Coupon extends Recognizable implements FileParser
         return used;
     }
     
-    public boolean canApply(PriceTag priceTag){
-        if(priceTag.getAdjustedPrice() >= this.minimum && used == false){
+    public boolean canApply(Treasury priceTag){
+        if(priceTag.getAdjustedPrice(price,discount) >= this.minimum && used == false){
             return true;
         }
         else{
@@ -47,13 +41,13 @@ public class Coupon extends Recognizable implements FileParser
         }
     }
     
-    public double apply(PriceTag priceTag){
+    public double apply(Treasury priceTag){
         used = true;
         if(type == type.DISCOUNT){
-            return (100-cut)/priceTag.getAdjustedPrice()*100;
+            return (100-cut)/priceTag.getAdjustedPrice(price,discount)*100;
         }
         else if(type == type.REBATE){
-            return (priceTag.getAdjustedPrice()-priceTag.price);
+            return (priceTag.getAdjustedPrice(price,discount)-price);
         }
         else return 0.0;
     }

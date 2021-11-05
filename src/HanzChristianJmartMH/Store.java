@@ -2,24 +2,13 @@ package HanzChristianJmartMH;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Store extends Recognizable implements FileParser
+public class Store extends Recognizable
 {
-    public boolean read(String content){
-        return false;
-    }
-    
-    public Object write(){
-        return null;
-    }
-    
-    public static Object newInstance(String content){
-        return null;
-    }
-    
     public String name;
     public String address;
     public String phoneNumber;
     public Account account;
+    public double balance;
     public static final String REGEX_NAME = "^[A-Z](?!.*(\\s)\1).{4,20}$";
     public static final String REGEX_PHONE = "^\\d{9,12}$";
     
@@ -38,20 +27,12 @@ public class Store extends Recognizable implements FileParser
             return false;
         }
     }
-    
-    Store(int accountId, String name, String address, String phoneNumber){
-        super(accountId);
+
+    Store(String name, String address, String phoneNumber,double balance){
         this.name = name;
         this.address = address;
         this.phoneNumber = phoneNumber;
-    }
-    
-    Store(Account account, String name, String address, String phoneNumber){
-        super(account.id);
-        this.account = account;
-        this.name = name;
-        this.address = address;
-        this.phoneNumber = phoneNumber;
+        this.balance = balance;
     }
     
     public String toString(){
