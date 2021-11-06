@@ -2,7 +2,7 @@ package HanzChristianJmartMH;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Store extends Recognizable
+public class Store extends Serializable
 {
     public String name;
     public String address;

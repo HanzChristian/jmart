@@ -38,6 +38,5 @@ public class Treasury
         return discountprice;
     }
 
-
 }
 

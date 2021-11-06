@@ -1,6 +1,6 @@
 package HanzChristianJmartMH;
 
-public class Product extends Recognizable
+public class Product extends Serializable
 {
     public int accountid;
     double discount;

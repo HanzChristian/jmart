@@ -1,9 +1,8 @@
 package HanzChristianJmartMH;
 import java.util.Date;
-import java.util.Calendar;
 import java.util.ArrayList;
 
-public abstract class Invoice extends Recognizable
+public abstract class Invoice extends Serializable
 {
     public Date date;
     public int productId;
@@ -27,7 +26,7 @@ public abstract class Invoice extends Recognizable
     }
     
     
-    protected Invoice(int id, int buyerId, int productId){
+    protected Invoice(int buyerId, int productId){
         this.date = new Date();
         this.buyerId = buyerId;
         this.productId = productId;

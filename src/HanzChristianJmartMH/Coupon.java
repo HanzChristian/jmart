@@ -1,6 +1,6 @@
 package HanzChristianJmartMH;
 
-public class Coupon extends Recognizable
+public class Coupon extends Serializable
 {
 
     public static Object newInstance(String content){
