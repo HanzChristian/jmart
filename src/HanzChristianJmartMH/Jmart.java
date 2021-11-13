@@ -26,6 +26,7 @@ public class Jmart
         System.out.println("payment id:" + new Payment(-1, -1, -1, null).id);
         System.out.println("payment id:" + new Payment(-1, -1, -1, null).id);
 
+    /*
         try {
             List<Product>list = read("D:/Perkuliahan/Semester 5/Praktikum/OOP/Modul 1/Folder khusus/jmart/src/GoldenSample/randomProductList.json");
        //     List<Product>filtered = filterByPrice(list, 0.0, 20000.0);
@@ -38,6 +39,22 @@ public class Jmart
         catch (Throwable t){
             t.printStackTrace();
         }
+
+     */
+        try{
+            String filepath = "D:/Perkuliahan/Semester 5/Praktikum/OOP/Modul 1/Folder khusus/jmart/src/GoldenSample/tes.json";
+            JsonTable<Account> tableAccount = new JsonTable<>(Account.class, filepath);
+            tableAccount.add(new Account("name", "email", "password",1000 ));
+            tableAccount.writeJson();
+
+            tableAccount = new JsonTable<>(Account.class, filepath);
+            tableAccount.forEach(account -> System.out.println(account.toString()));
+        }
+        catch(Throwable t)
+        {
+            t.printStackTrace();
+        }
+
 //        String filepath = "D:/Perkuliahan/Semester 5/Praktikum/OOP/Modul 1/Folder khusus/jmart/src/city.json";
 //        Gson gson = new Gson();
 //        try
