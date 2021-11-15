@@ -15,7 +15,7 @@ public abstract class Invoice extends Serializable
         NONE, BAD, NEUTRAL, GOOD;
     }
     enum Status{
-        WAITING_CONFIRMATION, CANCELLED, ON_PROGRESS, ON_DELIVERY, COMPLAINT, FINISHED,FAILED;
+        WAITING_CONFIRMATION, CANCELLED, ON_PROGRESS, ON_DELIVERY, COMPLAINT, FINISHED,FAILED,DELIVERED;
     }
     
     public ArrayList<Record> history = new ArrayList<Record>();
@@ -32,7 +32,7 @@ public abstract class Invoice extends Serializable
         this.productId = productId;
         this.rating = Rating.NONE;
         this.complaintID = -1;
-//        this.status = Status.WAITING_CONFIRMATION;
+//      this.status = Status.WAITING_CONFIRMATION;
     }
 
     
