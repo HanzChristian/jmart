@@ -8,7 +8,7 @@ public abstract class Invoice extends Serializable
     public int productId;
     public int complaintID;
     public Rating rating;
-    public Status status;
+//    public Status status;
     public int buyerId;
 
     enum Rating{
@@ -31,9 +31,11 @@ public abstract class Invoice extends Serializable
         this.buyerId = buyerId;
         this.productId = productId;
         this.rating = Rating.NONE;
-        this.status = Status.WAITING_CONFIRMATION;
+        this.complaintID = -1;
+//        this.status = Status.WAITING_CONFIRMATION;
     }
 
     
-    public abstract double getTotalPay();
+    public abstract double getTotalPay(Product product);
+
 }

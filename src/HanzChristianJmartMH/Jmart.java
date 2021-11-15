@@ -160,6 +160,7 @@ public class Jmart
         return paginatedList;
     }
 
+
     public static List<Product> filterByAccountId(List<Product>list, int accountId, int page, int pageSize){
         Predicate<Product> predicate = product -> (product.accountId == accountId);
         return  paginate(list, page, pageSize, predicate);
