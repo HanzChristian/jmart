@@ -1,5 +1,7 @@
 package com.HanzChristianJmartMH;
 
+import com.HanzChristianJmartMH.dbjson.Serializable;
+
 public class Product extends Serializable
 {
     public int accountId;

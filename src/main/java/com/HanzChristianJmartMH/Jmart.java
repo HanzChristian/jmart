@@ -4,6 +4,8 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.*;
+
+import com.HanzChristianJmartMH.dbjson.JsonDBEngine;
 import com.google.gson.*;
 import com.google.gson.stream.JsonReader;
 import java.io.*;
@@ -26,6 +28,9 @@ public class Jmart
 
     public static void main(String[] args) {
         SpringApplication.run(Jmart.class,args);
+        JsonDBEngine.Run(Jmart.class);
+        SpringApplication.run(Jmart.class, args);
+        Runtime.getRuntime().addShutdownHook(new Thread(() ->JsonDBEngine.join()));
 //        try
 //        {
 //            // sesuaikan argument dibawah dengan lokasi resource file yang Anda unduh di EMAS!
@@ -144,65 +149,65 @@ public class Jmart
         return list;
     }
 
-    public static List<Product> filterByCategory(List<Product> list, ProductCategory category)
-    {
-        List<Product> newList = new ArrayList<Product>();
-        for(Product product : list)
-        {
-            if(product.category == category)
-            {
-                newList.add(product);
-            }
-        }
-
-        for(Product product : list)
-        {
-            if(product.category == category)
-            {
-                newList.add(product);
-            }
-        }
-        return newList;
-    }
-
-    public static List<Product> filterByPrice(List<Product> list, double minPrice, double maxPrice)
-    {
-        List<Product> newList = new ArrayList<Product>();
-        if(minPrice != 0.0 && maxPrice != 0.0)
-        {
-            for(Product product : list)
-            {
-                double productPrice = product.price;
-                if(productPrice > minPrice && productPrice < maxPrice)
-                {
-                    newList.add(product);
-                }
-            }
-        }
-        else if(minPrice == 0.0)
-        {
-            for(Product product : list)
-            {
-                double productPrice = product.price;
-                if(productPrice < maxPrice)
-                {
-                    newList.add(product);
-                }
-            }
-        }
-        else if(maxPrice == 0.0)
-        {
-            for(Product product : list)
-            {
-                double productPrice = product.price;
-                if(productPrice > minPrice)
-                {
-                    newList.add(product);
-                }
-            }
-        }
-        return newList;
-    }
+//    public static List<Product> filterByCategory(List<Product> list, ProductCategory category)
+//    {
+//        List<Product> newList = new ArrayList<Product>();
+//        for(Product product : list)
+//        {
+//            if(product.category == category)
+//            {
+//                newList.add(product);
+//            }
+//        }
+//
+//        for(Product product : list)
+//        {
+//            if(product.category == category)
+//            {
+//                newList.add(product);
+//            }
+//        }
+//        return newList;
+//    }
+//
+//    public static List<Product> filterByPrice(List<Product> list, double minPrice, double maxPrice)
+//    {
+//        List<Product> newList = new ArrayList<Product>();
+//        if(minPrice != 0.0 && maxPrice != 0.0)
+//        {
+//            for(Product product : list)
+//            {
+//                double productPrice = product.price;
+//                if(productPrice > minPrice && productPrice < maxPrice)
+//                {
+//                    newList.add(product);
+//                }
+//            }
+//        }
+//        else if(minPrice == 0.0)
+//        {
+//            for(Product product : list)
+//            {
+//                double productPrice = product.price;
+//                if(productPrice < maxPrice)
+//                {
+//                    newList.add(product);
+//                }
+//            }
+//        }
+//        else if(maxPrice == 0.0)
+//        {
+//            for(Product product : list)
+//            {
+//                double productPrice = product.price;
+//                if(productPrice > minPrice)
+//                {
+//                    newList.add(product);
+//                }
+//            }
+//        }
+//        return newList;
+//    }
 
     private static List<Product> paginate(List<Product>list, int page, int pageSize, Predicate<Product> pred){
         List<Product> listed = new ArrayList<>();

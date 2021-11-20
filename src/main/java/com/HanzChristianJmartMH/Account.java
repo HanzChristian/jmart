@@ -1,4 +1,6 @@
 package com.HanzChristianJmartMH;
+import com.HanzChristianJmartMH.dbjson.Serializable;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 

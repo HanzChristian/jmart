@@ -1,4 +1,6 @@
 package com.HanzChristianJmartMH;
+import com.HanzChristianJmartMH.dbjson.Serializable;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -28,7 +30,7 @@ public class Store extends Serializable
         }
     }
 
-    Store(String name, String address, String phoneNumber,double balance){
+    public Store(String name, String address, String phoneNumber, double balance){
         this.name = name;
         this.address = address;
         this.phoneNumber = phoneNumber;

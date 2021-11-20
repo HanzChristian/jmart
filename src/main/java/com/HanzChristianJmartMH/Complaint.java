@@ -1,4 +1,6 @@
 package com.HanzChristianJmartMH;
+import com.HanzChristianJmartMH.dbjson.Serializable;
+
 import java.util.Date;
 import java.text.SimpleDateFormat;
 
