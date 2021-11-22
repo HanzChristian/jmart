@@ -9,6 +9,9 @@ import com.HanzChristianJmartMH.dbjson.JsonAutowired;
 import com.HanzChristianJmartMH.dbjson.JsonTable;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -34,37 +37,44 @@ public class AccountController implements BasicGetController<Account>
 
 	@PostMapping("/login")
 	Account login(@RequestParam String email, @RequestParam String password){
-		for(Account account : accountTable)
-		{
-			boolean emailIsMatched = account.email.equals(email);
-			boolean passwordIsMatched = account.password.equals(password);
-			if(emailIsMatched && passwordIsMatched)
-			{
-				return account;
+			MessageDigest mDigest = null;
+			try {
+				mDigest = MessageDigest.getInstance("MD5");
+			} catch (NoSuchAlgorithmException e) {
+				e.printStackTrace();
 			}
+			byte[] digest = mDigest.digest(password.getBytes());
+			BigInteger No = new BigInteger(1, digest);
+			String hash = No.toString(16);
+			while (hash.length() < 32) hash = "0" + hash;
+			String finalHash = hash;
+
+			return Algorithm.<Account>find(accountTable, obj -> obj.email.equals(email) && obj.password.equals(finalHash));
 		}
-		return null;
-	}
 
 	@PostMapping("/register")
 	Account register(@RequestParam String name, @RequestParam String email, @RequestParam String password) {
-		Matcher matcherEmail = REGEX_PATTERN_EMAIL.matcher(email);
-		Matcher matcherPassword = REGEX_PATTERN_PASSWORD.matcher(password);
+		if(name.isBlank()) return null;
+		Matcher firstMatcher = REGEX_PATTERN_EMAIL.matcher(email);
+		if(!firstMatcher.find()) return null;
+		Matcher secondMatcher = REGEX_PATTERN_PASSWORD.matcher(password);
+		if(!secondMatcher.find()) return null;
+		if(Algorithm.<Account>find(accountTable, obj -> obj.email.equals(email)) != null) return null;
 
-		boolean uniqueEmail = true;
-
-		for(Account account : accountTable) {
-			if(account.email.equals(email))
-				uniqueEmail = false;
+		MessageDigest mDigest = null;
+		try {
+			mDigest = MessageDigest.getInstance("MD5");
+		} catch (NoSuchAlgorithmException e) {
+			e.printStackTrace();
 		}
+		byte[] digest = mDigest.digest(password.getBytes());
+		BigInteger no = new BigInteger(1, digest);
+		String hash = no.toString(16);
+		while (hash.length() < 32) hash = "0" + hash;
+		Account a = new Account(name, email, hash, 0);
 
-		if(!name.isBlank() && matcherEmail.find() && matcherPassword.find() && uniqueEmail) {
-			Account newAccount = new Account(name, email, password, 0.0);
-			accountTable.add(newAccount);
-			return newAccount;
-		}
-
-		return null;
+		accountTable.add(a);
+		return a;
 	}
 
 	@PostMapping("/{id}/registerStore")

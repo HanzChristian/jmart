@@ -1,5 +1,9 @@
 package com.HanzChristianJmartMH;
 
+import com.HanzChristianJmartMH.Invoice;
+import com.HanzChristianJmartMH.Product;
+import com.HanzChristianJmartMH.Shipment;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;

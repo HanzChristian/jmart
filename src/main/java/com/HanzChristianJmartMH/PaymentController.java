@@ -1,4 +1,4 @@
-package com.HanzChristianJmartMH.controller;
+package com.HanzChristianJmartMH;
 
 import com.HanzChristianJmartMH.Invoice;
 import com.HanzChristianJmartMH.ObjectPoolThread;
@@ -50,27 +50,27 @@ public class PaymentController implements BasicGetController<Payment> {
     }
 
     private static boolean timekeeper(Payment payment){
-//        Date timeNow = Calendar.getInstance().getTime();
-//        if(payment.history.size() != 0){
-//            Payment.Record lastRecord = payment.history.get(payment.history.size() - 1);
-//            long timePassed = timeNow.getTime() - lastRecord.date.getTime();
-//            if(lastRecord.status == Invoice.Status.WAITING_CONFIRMATION && (timePassed > WAITING_CONF_LIMIT_MS)){
-//                payment.history.add(new Payment.Record(Invoice.Status.FAILED, "Gagal"));
-//                return true;
-//            }
-//            else if((lastRecord.status == Invoice.Status.ON_PROGRESS) && (timePassed > ON_PROGRESS_LIMIT_MS)){
-//                payment.history.add(new Payment.Record(Invoice.Status.FAILED, "Gagal"));
-//                return true;
-//            }
-//            else if(lastRecord.status == Invoice.Status.ON_DELIVERY && timePassed > ON_DELIVERY_LIMIT_MS){
-//                payment.history.add(new Payment.Record(Invoice.Status.DELIVERED, "TERKIRIM"));
-//                return true;
-//            }
-//            else if(lastRecord.status == Invoice.Status.DELIVERED && timePassed > DELIVERED_LIMIT_MS){
-//                payment.history.add(new Payment.Record(Invoice.Status.FINISHED, "SELESAI"));
-//                return true;
-//            }
-//        }
+        Date timeNow = Calendar.getInstance().getTime();
+        if(payment.history.size() != 0){
+            Payment.Record lastRecord = payment.history.get(payment.history.size() - 1);
+            long timePassed = timeNow.getTime() - lastRecord.date.getTime();
+            if(lastRecord.status == Invoice.Status.WAITING_CONFIRMATION && (timePassed > WAITING_CONF_LIMIT_MS)){
+                payment.history.add(new Payment.Record(Invoice.Status.FAILED, "Gagal"));
+                return true;
+            }
+            else if((lastRecord.status == Invoice.Status.ON_PROGRESS) && (timePassed > ON_PROGRESS_LIMIT_MS)){
+                payment.history.add(new Payment.Record(Invoice.Status.FAILED, "Gagal"));
+                return true;
+            }
+            else if(lastRecord.status == Invoice.Status.ON_DELIVERY && timePassed > ON_DELIVERY_LIMIT_MS){
+                payment.history.add(new Payment.Record(Invoice.Status.DELIVERED, "TERKIRIM"));
+                return true;
+            }
+            else if(lastRecord.status == Invoice.Status.DELIVERED && timePassed > DELIVERED_LIMIT_MS){
+                payment.history.add(new Payment.Record(Invoice.Status.FINISHED, "SELESAI"));
+                return true;
+            }
+        }
         return false;
     }
 }
