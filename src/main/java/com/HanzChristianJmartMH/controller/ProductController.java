@@ -18,7 +18,7 @@ public class ProductController implements BasicGetController<Product>{
         for(Account acc : AccountController.accountTable){
             if (acc.store == null || acc.id != accountId) {
             } else {
-                Product newProduct = new Product(accountId, discount, price, shipmentPlans, name, weight, conditionUsed, category));
+                Product newProduct = new Product(accountId, discount, price, shipmentPlans, name, weight, conditionUsed, category);
                 productTable.add(newProduct);
                 return newProduct;
             }
@@ -47,7 +47,7 @@ public class ProductController implements BasicGetController<Product>{
 //                            if (each.category == category)
 //                                tempProduct.add(each);
 //        }
-//        return tempProduct;
+      return null;
     }
 
 }
