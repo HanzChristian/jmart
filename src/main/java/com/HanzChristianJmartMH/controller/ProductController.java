@@ -1,13 +1,12 @@
 package com.HanzChristianJmartMH.controller;
 
-import com.HanzChristianJmartMH.Account;
-import com.HanzChristianJmartMH.Algorithm;
-import com.HanzChristianJmartMH.Product;
-import com.HanzChristianJmartMH.ProductCategory;
+import com.HanzChristianJmartMH.*;
 import com.HanzChristianJmartMH.dbjson.JsonTable;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ProductController implements BasicGetController<Product>{
@@ -36,18 +35,22 @@ public class ProductController implements BasicGetController<Product>{
         return Algorithm.paginate(productTable, page, pageSize, pred->pred.accountId == id);
     }
 
-    @PostMapping("/product/getFiltered")
-    List<Product> getProductByFiltered(@RequestParam int page, @RequestParam int pageSize, @RequestParam int accountId, @RequestParam String search, @RequestParam int minPrice, @RequestParam int maxPrice, @RequestParam ProductCategory category){
-//        List<Product> tempProduct = null;
-//        for (Product each : productTable) {
-//            if (each.accountId == accountId)
-//                if (each.name.contains(search))
-//                    if (minPrice <= each.price)
-//                        if (maxPrice >= each.price)
-//                            if (each.category == category)
-//                                tempProduct.add(each);
-//        }
-      return null;
+    @GetMapping("/getFiltered")
+    List<Product> getProductFiltered(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int pageSize, @RequestParam(defaultValue = "0") int accountId, @RequestParam(defaultValue = "") String search, @RequestParam(defaultValue = "0.0") int minPrice, @RequestParam(defaultValue = "0.0") int maxPrice, @RequestParam(defaultValue = "") ProductCategory category){
+        List<Product> listed = new ArrayList<>();
+        if(accountId != 0){
+            listed = Jmart.filterByAccountId(listed, accountId, page, pageSize);
+        }
+        if(!search.equals("")){
+            listed = Jmart.filterByName(listed, search, page, pageSize);
+        }
+        if(minPrice != 0.0 || maxPrice != 0.0){
+            listed = Jmart.filterByPrice(listed, minPrice, maxPrice);
+        }
+        if(category != null){
+            listed = Jmart.filterByCategory(listed, category);
+        }
+        return listed;
     }
 
 }

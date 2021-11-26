@@ -4,8 +4,11 @@ import com.HanzChristianJmartMH.Invoice;
 import com.HanzChristianJmartMH.ObjectPoolThread;
 import com.HanzChristianJmartMH.Payment;
 import com.HanzChristianJmartMH.Shipment;
+import com.HanzChristianJmartMH.controller.AccountController;
 import com.HanzChristianJmartMH.controller.BasicGetController;
+import com.HanzChristianJmartMH.controller.ProductController;
 import com.HanzChristianJmartMH.dbjson.JsonTable;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -23,30 +26,97 @@ public class PaymentController implements BasicGetController<Payment> {
 
     @PostMapping("/{id}/accept")
     public boolean accept(int id){
+        Payment payment = null;
+        for(Payment pay : paymentTable){
+            if(pay.id == id){
+                payment = pay;
+            }
+        }
+        if(payment != null){
+            int size = payment.history.size();
+            Payment.Record lastRecord = payment.history.get(size - 1);
+            if(lastRecord.status == Invoice.Status.WAITING_CONFIRMATION){
+                Payment.Record record = new Payment.Record(Invoice.Status.ON_PROGRESS, "Payment accepted, success!");
+                payment.history.add(record);
+                return true;
+            }
+        }
         return false;
     }
 
     @PostMapping("/{id}/cancel")
     public boolean cancel(int id){
+        Payment payment = null;
+        for(Payment pay : paymentTable){
+            if(pay.id == id){
+                payment = pay;
+            }
+        }
+        if(payment != null){
+            int size = payment.history.size();
+            Payment.Record lastRecord = payment.history.get(size - 1);
+            if(lastRecord.status == Invoice.Status.WAITING_CONFIRMATION){
+                Payment.Record record = new Payment.Record(Invoice.Status.CANCELLED, "Payment cancelled, failed!");
+                payment.history.add(record);
+                return true;
+            }
+        }
         return false;
     }
 
     @PostMapping("/create")
-    public Payment create(@RequestParam int buyerId,@RequestParam int productId,@RequestParam int productCount,@RequestParam String shipmentAddress, @RequestParam byte shipmentPlan){
-        Shipment shipment = new Shipment(shipmentAddress, 500, shipmentPlan, "");
-        Payment payment = new Payment(buyerId, productId, productCount, shipment);
+    public Payment create(@RequestParam int buyerId, @RequestParam int productId, @RequestParam int productCount, @RequestParam String shipmentAddress, @RequestParam byte shipmentPlan){
+        Account account = null;
+        Product product = null;
+        for(Account acc : AccountController.accountTable){
+            if(acc.id == buyerId){
+                account = acc;
+            }
+        }
 
-        paymentTable.add(payment);
-        return payment;
-    }
-
-    public JsonTable<Payment> getJsonTable(){
+        for(Product prod : ProductController.productTable){
+            if(prod.id == productId){
+                product = prod;
+            }
+        }
+        if(account != null && product != null){
+            Shipment shipment = new Shipment(shipmentAddress, 0, shipmentPlan, null);
+            Payment payment = new Payment(buyerId, productId, productCount, shipment);
+            double price = payment.getTotalPay(product);
+            if(account.balance >= price){
+                account.balance = account.balance - price;
+                payment.history.add(new Payment.Record(Invoice.Status.WAITING_CONFIRMATION, "Paid & Waiting for confirmation!"));
+                paymentTable.add(payment);
+                poolThread.add(payment);
+                return payment;
+            }
+        }
         return null;
     }
 
+    public JsonTable<Payment> getJsonTable(){
+        return paymentTable;
+    }
+
     @PostMapping("/{id}/submit")
-    public boolean submit(int id,String receipt){
-        return true;
+    public boolean submit(@PathVariable int id, @RequestParam String receipt){
+        Payment payment = null;
+        for(Payment pay : paymentTable){
+            if(pay.id == id){
+                payment = pay;
+            }
+        }
+        if(payment != null){
+            int size = payment.history.size();
+            Payment.Record lastRecord = payment.history.get(size - 1);
+            if(lastRecord.status == Invoice.Status.ON_PROGRESS && (!receipt.isBlank())){
+                payment.shipment.receipt = receipt;
+                Payment.Record record = new Payment.Record(Invoice.Status.ON_DELIVERY, "Payment Submitted!");
+                payment.history.add(record);
+                return true;
+            }
+        }
+        return false;
     }
 
     private static boolean timekeeper(Payment payment){
