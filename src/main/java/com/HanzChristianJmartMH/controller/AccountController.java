@@ -1,7 +1,6 @@
-package com.HanzChristianJmartMH.controller;// TODO sesuaikan dengan package Anda: package com.alvinJmartRK.controller;
+package com.HanzChristianJmartMH.controller;
 
 
-// TODO sesuaikan dengan package Anda: import com.alvinJmartRK.Account;
 import com.HanzChristianJmartMH.Account;
 import com.HanzChristianJmartMH.Algorithm;
 import com.HanzChristianJmartMH.Store;
@@ -17,86 +16,113 @@ import java.util.regex.Pattern;
 
 @RestController
 @RequestMapping("/account")
-public class AccountController implements BasicGetController<Account>
-{
+public class AccountController implements BasicGetController<Account> {
 	public static final String REGEX_EMAIL = "^[a-zA-Z0-9&*_~]+(\\.[a-zA-Z0-9&*_~]+)*@[a-zA-Z0-9-]+(\\.[a-zA-Z0-9-]+)*$";
 	public static final String REGEX_PASSWORD = "^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?!.* ).{8,}$";
 	public static final Pattern REGEX_PATTERN_EMAIL = Pattern.compile(REGEX_EMAIL);
 	public static final Pattern REGEX_PATTERN_PASSWORD = Pattern.compile(REGEX_PASSWORD);
-	@JsonAutowired(value = Account.class, filepath = "testing")
+
+	@JsonAutowired(value = Account.class, filepath = "D:\\Perkuliahan\\Semester 5\\Praktikum\\OOP\\Modul 1\\Folder khusus\\jmart\\src\\GoldenSample\\account.json")
 	public static JsonTable<Account> accountTable;
 
-	@GetMapping
-	String index(){
-		return "account page";
-	}
-
-	public JsonTable<Account> getJsonTable(){
+	public JsonTable<Account> getJsonTable() {
 		return accountTable;
 	}
 
 	@PostMapping("/login")
-	Account login(@RequestParam String email, @RequestParam String password){
-			MessageDigest mDigest = null;
-			try {
-				mDigest = MessageDigest.getInstance("MD5");
-			} catch (NoSuchAlgorithmException e) {
-				e.printStackTrace();
-			}
-			byte[] digest = mDigest.digest(password.getBytes());
-			BigInteger No = new BigInteger(1, digest);
-			String hash = No.toString(16);
-			while (hash.length() < 32) hash = "0" + hash;
-			String finalHash = hash;
-
-			return Algorithm.<Account>find(accountTable, obj -> obj.email.equals(email) && obj.password.equals(finalHash));
-		}
-
-	@PostMapping("/register")
-	Account register(@RequestParam String name, @RequestParam String email, @RequestParam String password) {
-		if(name.isBlank()) return null;
-		Matcher firstMatcher = REGEX_PATTERN_EMAIL.matcher(email);
-		if(!firstMatcher.find()) return null;
-		Matcher secondMatcher = REGEX_PATTERN_PASSWORD.matcher(password);
-		if(!secondMatcher.find()) return null;
-		if(Algorithm.<Account>find(accountTable, obj -> obj.email.equals(email)) != null) return null;
-
-		MessageDigest mDigest = null;
+	public Account login(@RequestParam String email, @RequestParam String password) {
+		MessageDigest messageDigest = null;
 		try {
-			mDigest = MessageDigest.getInstance("MD5");
+			messageDigest = MessageDigest.getInstance("MD5");
 		} catch (NoSuchAlgorithmException e) {
 			e.printStackTrace();
 		}
-		byte[] digest = mDigest.digest(password.getBytes());
-		BigInteger no = new BigInteger(1, digest);
-		String hash = no.toString(16);
-		while (hash.length() < 32) hash = "0" + hash;
-		Account a = new Account(name, email, hash, 0);
+		assert messageDigest != null;
+		byte[] digest = messageDigest.digest(password.getBytes());
+		BigInteger No = new BigInteger(1, digest);
+		StringBuilder hash = new StringBuilder(No.toString(16));
+		while (hash.length() < 32) hash.insert(0, "0");
+		String finalHash = hash.toString();
 
-		accountTable.add(a);
-		return a;
+		return Algorithm.<Account>find(accountTable, obj -> obj.email.equals(email) && obj.password.equals(finalHash));
+	}
+
+	@PostMapping("/register")
+	Account register
+			(
+					@RequestParam String name,
+					@RequestParam String email,
+					@RequestParam String password
+			)
+	{
+		Matcher emailMatcher = REGEX_PATTERN_EMAIL.matcher(email);
+		boolean emailMatch = emailMatcher.find();
+		Matcher passwordMatcher = REGEX_PATTERN_PASSWORD.matcher(password);
+		boolean passwordMatch = passwordMatcher.find();
+		boolean unique = true;
+
+		for(Account acc: accountTable){
+			if(acc.email.equals(email)){
+				unique = false;
+				break;
+			}
+		}
+
+		if(!name.isBlank() && emailMatch && passwordMatch && unique){
+
+			Account regAccount = new Account(name, email, hashPassword(password), 0);
+			accountTable.add(regAccount);
+			return regAccount;
+
+		} else {
+			return null;
+		}
 	}
 
 	@PostMapping("/{id}/registerStore")
-	Store registerStore(@PathVariable int id, @RequestParam String name, @RequestParam String address, @RequestParam String phoneNumber){
-		Account acc = Algorithm.<Account> find(accountTable, obj -> obj.id == id);
-		if(acc == null || acc.store != null)
-		{
+	Store registerStore(@PathVariable int id, @RequestParam String name, @RequestParam String address, @RequestParam String phoneNumber) {
+		Account a = Algorithm.<Account>find(accountTable, obj -> obj.id == id);
+		if (a == null || a.store != null) {
 			return null;
 		}
-		acc.store = new Store(name, address, phoneNumber, 0.0);
-		return acc.store;
+		a.store = new Store(name, address, phoneNumber, 0.0);
+		return a.store;
 	}
 
 	@PostMapping("/{id}/topUp")
-	public boolean topUp(@PathVariable int id,@RequestParam double balance){
-		Account acc = getByID(id);
-		if(acc != null)
-		{
-			acc.balance += balance;
+	boolean topUp(@PathVariable int id, @RequestParam double balance) {
+		Account account = getById(id);
+		if (account != null) {
+			account.balance += balance;
 			return true;
 		}
 		return false;
+	}
+
+
+	public String hashPassword(String password){
+		try{
+			String generatedPassword;
+
+			MessageDigest md = MessageDigest.getInstance("MD5");
+			md.update(password.getBytes());
+			byte[] bytes = md.digest();
+
+			StringBuilder sb = new StringBuilder();
+			for (byte aByte : bytes) {
+				sb.append(Integer.toString((aByte & 0xff) + 0x100, 16).substring(1));
+			}
+			generatedPassword = sb.toString();
+			return generatedPassword;
+		} catch (NoSuchAlgorithmException e){
+			e.printStackTrace();
+			return password;
+		}
+	}
+
+	@GetMapping
+	String index() {
+		return "account page";
 	}
 }
 

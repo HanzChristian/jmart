@@ -12,7 +12,7 @@ import java.util.List;
 @RestController
 public interface BasicGetController <T extends Serializable>{
     @GetMapping("/id")
-    default T getByID (@PathVariable int id){
+    default T getById (@PathVariable int id){
         return Algorithm.<T>find(getJsonTable(),(e) -> e.id == id);
     }
 
