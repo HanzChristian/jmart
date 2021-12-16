@@ -5,9 +5,9 @@ import com.HanzChristianJmartMH.dbjson.Serializable;
 public class Product extends Serializable
 {
     public int accountId;
-    double discount;
+    public double discount;
     public double price;
-    byte shipmentPlans;
+    public byte shipmentPlans;
     public String name;
     public int weight;
     public boolean conditionUsed;

@@ -8,7 +8,7 @@ public class Coupon extends Serializable
     public final double cut;
     public final String name;
     public final double minimum;
-    private boolean used = false;
+    public boolean used = false;
     public final Type type;
 
     public enum Type {

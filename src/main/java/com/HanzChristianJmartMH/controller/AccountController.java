@@ -14,6 +14,11 @@ import java.security.NoSuchAlgorithmException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * Merupakan sebuah class untuk pengaturan terhadap modifikasi objek Account
+ * berdasar pada request yang dikirimkan pada Android (frontend)
+ */
+
 @RestController
 @RequestMapping("/account")
 public class AccountController implements BasicGetController<Account> {
@@ -22,12 +27,21 @@ public class AccountController implements BasicGetController<Account> {
 	public static final Pattern REGEX_PATTERN_EMAIL = Pattern.compile(REGEX_EMAIL);
 	public static final Pattern REGEX_PATTERN_PASSWORD = Pattern.compile(REGEX_PASSWORD);
 
+
 	@JsonAutowired(value = Account.class, filepath = "D:\\Perkuliahan\\Semester 5\\Praktikum\\OOP\\Modul 1\\Folder khusus\\jmart\\src\\GoldenSample\\account.json")
 	public static JsonTable<Account> accountTable;
 
+	/**
+	 * Merupakan sebuah method untuk list Account pada file Jsonnya (melalui filepath)
+	 */
 	public JsonTable<Account> getJsonTable() {
 		return accountTable;
 	}
+
+	/**
+	 * Merupakan sebuah method yang digunakan untuk validasi terhadap login
+	 * dengan return Account yang sesuai
+	 */
 
 	@PostMapping("/login")
 	public Account login(@RequestParam String email, @RequestParam String password) {
@@ -46,6 +60,14 @@ public class AccountController implements BasicGetController<Account> {
 
 		return Algorithm.<Account>find(accountTable, obj -> obj.email.equals(email) && obj.password.equals(finalHash));
 	}
+
+	/**
+	 * Merupakan sebuah method yang digunakan untuk membentuk Account saat user melakukan
+	 * register
+	 * @param name merupakan nama yang dimasukkan kepada Account
+	 * @param email merupakan email yang dimasukkan kepada Account
+	 * @param password merupakan password yang dimasukkan kepada Account
+	 */
 
 	@PostMapping("/register")
 	Account register
@@ -79,6 +101,14 @@ public class AccountController implements BasicGetController<Account> {
 		}
 	}
 
+	/**
+	 * Merupakan sebuah method yang digunakan untuk pendaftaran Store pada Account
+	 * @param id id menandakan id dari store yang terbentuk
+	 * @param name name menandakan nama dari store
+	 * @param address address menandakan address dari store
+	 * @param phoneNumber phonenumber menandakan nomor telpon dari store
+	 */
+
 	@PostMapping("/{id}/registerStore")
 	Store registerStore(@PathVariable int id, @RequestParam String name, @RequestParam String address, @RequestParam String phoneNumber) {
 		Account a = Algorithm.<Account>find(accountTable, obj -> obj.id == id);
@@ -88,6 +118,13 @@ public class AccountController implements BasicGetController<Account> {
 		a.store = new Store(name, address, phoneNumber, 0.0);
 		return a.store;
 	}
+
+	/**
+	 * Merupakan sebuah method yang digunakan untuk melakukan topup terhadap balance yang ada
+	 * pada Account
+	 * @param id merupakan id dari Account yang tersangkut
+	 * @param balance merupakan balance dari idnya
+	 */
 
 	@PostMapping("/{id}/topUp")
 	boolean topUp(@PathVariable int id, @RequestParam double balance) {
@@ -99,6 +136,13 @@ public class AccountController implements BasicGetController<Account> {
 		return false;
 	}
 
+	/**
+	 * Merupakan sebuah method yang digunakan untuk hashing terhadap password
+	 * menggunakan MD5
+	 * @param password merupakan password Account yang akan di hash
+	 * @return Hasil hashing MD5 pada password
+	 * @throws NoSuchAlgorithmException
+	 */
 
 	public String hashPassword(String password){
 		try{

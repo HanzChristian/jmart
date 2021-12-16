@@ -13,20 +13,13 @@ public abstract class Invoice extends Serializable
 //    public Status status;
     public int buyerId;
 
-    enum Rating{
+    public enum Rating{
         NONE, BAD, NEUTRAL, GOOD;
     }
     public enum Status{
         WAITING_CONFIRMATION, CANCELLED, ON_PROGRESS, ON_DELIVERY, COMPLAINT, FINISHED,FAILED,DELIVERED;
     }
-    
-    public ArrayList<Record> history = new ArrayList<Record>();
-    class Record{
-        public Date date;
-        public String message;
-        public Status status;
-    }
-    
+
     
     protected Invoice(int buyerId, int productId){
         this.date = new Date();
