@@ -17,10 +17,10 @@ import java.util.List;
 @RestController
 @RequestMapping("/payment")
 public class PaymentController implements BasicGetController<Payment> {
-    public static final long DELIVERED_LIMIT_MS = 10000;
-    public static final long ON_DELIVERY_LIMIT_MS = 10000;
-    public static final long ON_PROGRESS_LIMIT_MS = 10000;
-    public static final long WAITING_CONF_LIMIT_MS = 10000;
+    public static final long DELIVERED_LIMIT_MS = 60000;
+    public static final long ON_DELIVERY_LIMIT_MS = 60000;
+    public static final long ON_PROGRESS_LIMIT_MS = 60000;
+    public static final long WAITING_CONF_LIMIT_MS = 60000;
 
 
     @JsonAutowired(value = Payment.class, filepath = "D:\\Perkuliahan\\Semester 5\\Praktikum\\OOP\\Modul 1\\Folder khusus\\jmart\\src\\GoldenSample\\payment.json")
@@ -137,7 +137,7 @@ public class PaymentController implements BasicGetController<Payment> {
      * @return merupakan payment yang berhasil terbentuk
      */
     @PostMapping("/create")
-    public Payment create (@RequestParam int buyerId, @RequestParam int productId, @RequestParam int productCount, @RequestParam String shipmentAddress, @RequestParam byte shipmentPlan, @RequestParam int storeId){
+    public Payment create (@RequestParam int buyerId, @RequestParam int productId, @RequestParam int productCount, @RequestParam String shipmentAddress, @RequestParam byte shipmentPlan, @RequestParam int storeId,@RequestParam double discount){
         Account account = null;
         Product product = null;
         for(Account a : AccountController.accountTable){
@@ -155,6 +155,8 @@ public class PaymentController implements BasicGetController<Payment> {
             Shipment shipment = new Shipment(shipmentAddress, 0, shipmentPlan, null);
             Payment payment = new Payment(buyerId, productId, productCount, shipment, storeId);
             double price = payment.getTotalPay(product);
+            price = price - (discount/100 * price);
+
             if(account.balance >= price){
                 account.balance = account.balance - price;
                 payment.history.add(new Payment.Record(Invoice.Status.WAITING_CONFIRMATION, "Payment sudah dibayar dan menunggu konfirmasi"));
