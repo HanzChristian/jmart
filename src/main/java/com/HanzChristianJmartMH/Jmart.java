@@ -9,6 +9,11 @@ import java.io.*;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+/**
+ * Merupakan Class Jmart yang menjadi inisiasi utama keseluruhan backendnya
+ * @author Hanz Christian
+ * @version 18 Desember 2021
+ */
 @SpringBootApplication
 public class Jmart
 {

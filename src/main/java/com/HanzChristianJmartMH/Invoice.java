@@ -4,6 +4,11 @@ import com.HanzChristianJmartMH.dbjson.Serializable;
 import java.util.Date;
 import java.util.ArrayList;
 
+/**
+ * Merupakan Class Invoice
+ * @author Hanz Christian
+ * @version 18 Desember 2021
+ */
 public abstract class Invoice extends Serializable
 {
     public Date date;
@@ -13,6 +18,7 @@ public abstract class Invoice extends Serializable
 //    public Status status;
     public int buyerId;
 
+
     public enum Rating{
         NONE, BAD, NEUTRAL, GOOD;
     }
@@ -20,7 +26,11 @@ public abstract class Invoice extends Serializable
         WAITING_CONFIRMATION, CANCELLED, ON_PROGRESS, ON_DELIVERY, COMPLAINT, FINISHED,FAILED,DELIVERED;
     }
 
-    
+    /**
+     * merupakan constructor invoice sesuai dengan parameter
+     * @param buyerId id dari user pembeli
+     * @param productId id dari product yang dibeli user
+     */
     protected Invoice(int buyerId, int productId){
         this.date = new Date();
         this.buyerId = buyerId;
@@ -30,7 +40,11 @@ public abstract class Invoice extends Serializable
 //      this.status = Status.WAITING_CONFIRMATION;
     }
 
-    
+    /**
+     * merupakan method yang digunakan untuk menghitung total biaya yang akan dibayar user
+     * @param product
+     * @return
+     */
     public abstract double getTotalPay(Product product);
 
 }

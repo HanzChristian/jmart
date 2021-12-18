@@ -2,6 +2,11 @@ package com.HanzChristianJmartMH;
 
 import com.HanzChristianJmartMH.dbjson.Serializable;
 
+/**
+ * Merupakan Class Coupon
+ * @author Hanz Christian
+ * @version 18 Desember 2021
+ */
 public class Coupon extends Serializable
 {
     public  final int code;
@@ -15,6 +20,14 @@ public class Coupon extends Serializable
         DISCOUNT,REBATE
     }
 
+    /**
+     * Merupakan constructor coupon sesuai dengan parameter
+     * @param name nama dari coupon
+     * @param code kode coupon
+     * @param type tipe coupon
+     * @param cut besarnya potongan coupon
+     * @param minimum minimal coupon
+     */
     public Coupon( String name, int code, Type type, double cut, double minimum) {
 
         this.used = false;
@@ -25,11 +38,21 @@ public class Coupon extends Serializable
         this.minimum = minimum;
     }
 
-
+    /**
+     * Merupakan method untuk melakukan getter terhadap penggunaan couponnya
+     * @return
+     */
     public boolean isUsed() {
         return used;
     }
 
+    /**
+     * merupakan method yang digunakan untuk cek kondisi coupon dapat digunakan
+     * pada paymentnya atau tidak
+     * @param price
+     * @param discount
+     * @return true jika sesuai dengan kondisi sehingga dapat digunakan, false jika gagal untuk di apply
+     */
     public boolean canApply (double price, double discount) {
         if (Treasury.getAdjustedPrice(price, discount)>=minimum && used == false) {
             return true;
@@ -39,6 +62,12 @@ public class Coupon extends Serializable
         }
     }
 
+    /**
+     * Method yang digunakan untuk melakukan pengecekkan apply terhadap couponnya
+     * @param price
+     * @param discount
+     * @return
+     */
     public double apply (double price, double discount) {
         this.used =  true;
 

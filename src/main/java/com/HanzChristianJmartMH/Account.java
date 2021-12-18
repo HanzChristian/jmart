@@ -4,6 +4,11 @@ import com.HanzChristianJmartMH.dbjson.Serializable;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * Merupakan Class Account
+ * @author Hanz Christian
+ * @version 18 Desember 2021
+ */
 public class Account extends Serializable
 {
     public String name;
@@ -14,6 +19,13 @@ public class Account extends Serializable
     public double balance;
     public Store store;
 
+    /**
+     * Constructor untuk parameter pada class Account
+     * @param name nama akun
+     * @param email nama email
+     * @param password password yang dimasukkan
+     * @param balance besarnya balance akun
+     */
     public Account(String name,String email,String password,double balance)
     {
         this.name = name;
@@ -22,6 +34,11 @@ public class Account extends Serializable
         this.balance = balance;
     }
 
+    /**
+     * Merupakan method untuk melakukan validasi terhadap email dan password yang dimasukkan sesuai dengan
+     * REGEX yang tersedia
+     * @return memberikan boolean true ketika email dan password yang dimasukkan match, false jika salah satu/keduanya tidak match
+     */
     public boolean validate(){
         Pattern patternEmail = Pattern.compile(REGEX_EMAIL);
         Matcher matcherEmail = patternEmail.matcher(this.email);
